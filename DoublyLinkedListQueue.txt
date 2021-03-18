@@ -1,0 +1,166 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doublylinkedlistqueue;
+
+/**
+ *
+ * @author Student
+ */
+public class DoublyLinkedListQueue {
+
+  int size =0;
+    Node head = null;
+    Node tail = null;
+
+    public Node enqueuetohead(int data){
+        System.out.println("The number " + data + " is added to head");
+        Node n = new Node(data);
+        if(size==0){
+            head = n;
+            tail = n;
+        }else{
+            n.next = head;
+            head.previous = n;
+            head = n;
+        }
+        size++;
+        return n;
+    }
+
+    public Node enqueuetotail(int data){
+        System.out.println("the number  " + data + " is added to the tail");
+        Node n = new Node(data);
+        if(size==0){
+            head = n;
+            tail = n;
+        }else{
+            tail.next = n;
+            n.previous = tail;
+            tail =n;
+        }
+        size++;
+        return n;
+    }
+
+    public Node enqueueAfter(int data, Node prevNode){
+        if(prevNode==null){
+            System.out.println("Node after which new node to be added cannot be null");
+            return null;
+        }else if(prevNode==tail){//check if it a last node
+            return enqueuetotail(data);
+        }
+        else{
+            System.out.println("Adding node after "+ prevNode.data);
+           
+            Node n = new Node(data);
+           
+            Node nextNode = prevNode.next;
+         
+            n.next = nextNode;
+          
+            prevNode.next = n;
+           
+            nextNode.previous = n;
+            
+            n.previous = prevNode;
+            size++;
+            return n;
+        }
+    }
+
+    public void dequeuefromhead(){
+        if(size==0){
+            System.out.println("\nList is Empty");
+        }else{
+            System.out.println("\ndeleting node " + head.data + " from head");
+            head = head.next;
+            size--;
+        }
+    }
+
+    public void dequeuefromtail(){
+        if(size==0){
+            System.out.println("\nList is Empty");
+        }else if(size==1){
+            dequeuefromhead();
+        }else{
+           
+            int x = tail.data;
+            Node prevTail = tail.previous;
+
+           
+            tail = prevTail;
+            tail.next=null;
+            System.out.println("\ndeleting node " + x + " from tail");
+            size--;
+        }
+    }
+
+    public int elementAt(int index){
+        if(index>size){
+            return -1;
+        }
+        Node n = head;
+        while(index-1!=0){
+            n=n.next;
+            index--;
+        }
+        return n.data;
+    }
+
+    //get Size
+    public int getSize(){
+        return size;
+    }
+
+    public void print(){
+        Node temp = head;
+        System.out.print("Doubly Linked List Queue: ");
+        while(temp!=null){
+            System.out.print(" " + temp.data);
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+class Node{
+    int data;
+    Node next;
+    Node previous;
+    public Node(int data){
+        this.data = data;
+        next = null;
+        previous = null;
+    }
+}
+    public static void main(String[] args) {
+        DoublyLinkedListQueue doubled = new DoublyLinkedListQueue();
+        Node x = doubled.enqueuetohead(2);
+        doubled.enqueuetohead(1);
+        doubled.print();
+         doubled.enqueuetotail(3);
+        doubled.print();
+        doubled.enqueuetohead(7);
+        doubled.print();     
+        doubled.enqueuetotail(13);
+        doubled.print();
+        doubled.enqueuetohead(9);
+        doubled.print();
+        doubled.enqueuetotail(17);
+        doubled.print();
+        doubled.enqueueAfter(4,x);
+        doubled.print();
+        doubled.dequeuefromhead();
+        doubled.print();
+        System.out.println("Element at index 2: "+doubled.elementAt(2));
+        doubled.enqueuetohead(1);
+        doubled.print();
+        doubled.dequeuefromtail();
+        doubled.print();
+         doubled.dequeuefromtail();
+        doubled.print();
+        System.out.println("Size of the double Linked List Queue is : " + doubled.getSize());
+    }
+}

@@ -1,0 +1,176 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doublylinkedlist;
+
+/**
+ *
+ * @author Student
+ */
+public class DoublyLinkedList {
+    
+
+   int size =0;
+    DLNode head = null;
+    DLNode tail = null;
+       // Add to head
+    public DLNode pushtohead(int data){
+        System.out.println("The number " + data + " is added to head");
+        DLNode n = new DLNode(data);
+        if(size==0){
+            head = n;
+            tail = n;
+        }else{
+            n.next = head;
+            head.previous = n;
+            head = n;
+        }
+        size++;
+        return n;
+    }
+      //Add to tail
+    public DLNode pushtotail(int data){
+        System.out.println("the mumber " + data + " is added to the tail");
+        DLNode n = new DLNode(data);
+        if(size==0){
+            head = n;
+            tail = n;
+        }else{
+            tail.next = n;
+            n.previous = tail;
+            tail =n;
+        }
+        size++;
+        return n;
+    }
+       // Add after a value
+    public DLNode pushAfter(int data, DLNode prevNode){
+        if(prevNode==null){
+            System.out.println("Node after which new node to be added cannot be null");
+            return null;
+        }else if(prevNode==tail){//check if it a last node
+            return pushtotail(data);
+        }
+        else{
+            System.out.println("Adding node after "+ prevNode.data);
+           
+           DLNode n = new DLNode(data);
+           
+            DLNode nextNode = prevNode.next;
+         
+            n.next = nextNode;
+          
+            prevNode.next = n;
+           
+            nextNode.previous = n;
+            
+            n.previous = prevNode;
+            size++;
+            return n;
+        }
+    }
+    // Delete from head
+    public void popfromhead(){
+        if(size==0){
+            System.out.println("\nList is Empty");
+        }else{
+            System.out.println("\ndeleting node " + head.data + " from head");
+            head = head.next;
+            size--;
+        }
+    }
+    // Delete from tail
+    public void popfromtail(){
+        if(size==0){
+            System.out.println("\nList is Empty");
+        }else if(size==1){
+            popfromhead();
+        }else{
+           
+            int x = tail.data;
+            DLNode prevTail = tail.previous;
+
+           
+            tail = prevTail;
+            tail.next=null;
+            System.out.println("\ndeleting node " + x + " from tail");
+            size--;
+        }
+    }
+
+    public int elementAt(int index){
+        if(index>size){
+            return -1;
+        }
+        DLNode n = head;
+        while(index-1!=0){
+            n=n.next;
+            index--;
+        }
+        return n.data;
+    }
+
+    //get Size
+    public int getSize(){
+        return size;
+    }
+  
+		
+    // Print list
+    public void printlist(){
+        DLNode temp = head;
+        System.out.print("Doubly Linked List stack is: ");
+        while(temp!=null){
+            System.out.print(" " + temp.data);
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+
+  
+    
+    
+     
+         class DLNode{
+    int data;
+    DLNode next;
+    DLNode previous;
+        private DLNode info;
+    public DLNode(int data){
+        this.data = data;
+        next = null;
+        previous = null;
+    }
+    }
+
+    public static void main(String[] args) {
+        DoublyLinkedList doubled = new DoublyLinkedList();
+        DLNode x = doubled.pushtohead(2);
+        doubled.pushtohead(1);
+        doubled.printlist();
+        doubled.pushtotail(3);
+        doubled.printlist();
+        doubled.pushtohead(7);
+        doubled.printlist();      
+        doubled.pushtotail(13);
+        doubled.printlist();
+         doubled.pushtohead(9);
+        doubled.printlist();
+        doubled.pushtotail(17);
+        doubled.printlist();
+        doubled.pushAfter(4,x);
+        doubled.printlist();    
+        doubled.popfromhead();
+        doubled.printlist();
+        System.out.println("Element at index 2: "+doubled.elementAt(2));
+        doubled.pushtohead(1);
+        doubled.printlist();
+        doubled.popfromtail();
+        doubled.printlist();
+        System.out.println("Size of the double Linked List stack is: " + doubled.getSize());
+        
+      
+    }
+}
